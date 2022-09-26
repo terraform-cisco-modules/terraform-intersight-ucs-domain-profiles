@@ -1,6 +1,3 @@
-output "domain" {
-  description = "Moid of the Domain Profiles."
-  value = lookup(local.modules, "profiles_domain", true) ? {
-    for v in sort(keys(module.domain)
-  ) : v => module.domain[v] } : {}
+output "domains" {
+  value = local.switch_profiles
 }
