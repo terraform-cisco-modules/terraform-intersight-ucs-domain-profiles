@@ -26,7 +26,7 @@ No providers.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_domain"></a> [domain](#output\_domain) | Moid of the Domain Profiles. |
+| <a name="output_domains"></a> [domains](#output\_domains) | n/a |
 ## Resources
 
 No resources.
