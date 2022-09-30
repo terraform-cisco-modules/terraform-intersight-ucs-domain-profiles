@@ -25,9 +25,9 @@ locals {
     for v in local.domain_profiles : [
       for i in range(length(v.fabric_switches)) : {
         destroy = v.destroy
-        moid = v.destroy == false ? module.domain[
-          v.name]["domain_profile"][element(v.fabric_switches, i)
-        ] : ""
+        # moid = v.destroy == false ? module.domain[
+        #   v.name]["domain_profile"][element(v.fabric_switches, i)
+        # ] : ""
         name                        = "${v.name}-${element(v.fabric_switches, i)}"
         network_connectivity_policy = lookup(v, "network_connectivity_policy", "")
         ntp_policy                  = lookup(v, "ntp_policy", "")
