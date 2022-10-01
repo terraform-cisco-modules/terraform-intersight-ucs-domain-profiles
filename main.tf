@@ -6,7 +6,6 @@ locals {
   profiles   = lookup(local.intersight, "profiles", {})
   domain_profiles = {
     for v in lookup(local.profiles, "domain", []) : v.name => {
-      destroy                     = lookup(v, "destroy", local.defaults.intersight.profiles.domain.destroy)
       domain_template             = lookup(v, "domain_template", "")
       fabric_switches             = ["A", "B"]
       name                        = v.name
@@ -25,9 +24,8 @@ locals {
   switch_profiles_loop = flatten([
     for v in local.domain_profiles : [
       for i in range(length(v.fabric_switches)) : {
-        destroy         = v.destroy
         domain_template = v.domain_template
-        moid = v.destroy == false ? module.domain[
+        moid = length(module.domain) > 0 ? module.domain[
           v.name]["domain_profile"][element(v.fabric_switches, i)
         ] : ""
         name                        = "${v.name}-${element(v.fabric_switches, i)}"
@@ -61,10 +59,9 @@ locals {
 
 module "domain" {
   source          = "terraform-cisco-modules/profiles-domain/intersight"
-  version         = ">= 1.0.5"
+  version         = ">= 1.0.6"
   for_each        = { for dp in lookup(local.profiles, "domain", []) : dp.name => dp }
   action          = lookup(each.value, "action", local.defaults.intersight.profiles.domain.action)
-  destroy         = lookup(each.value, "destroy", local.defaults.intersight.profiles.domain.destroy)
   description     = lookup(each.value, "description", "")
   domain_template = lookup(each.value, "domain_template", "")
   domain_type     = lookup(each.value, "domain_type", "instance")
