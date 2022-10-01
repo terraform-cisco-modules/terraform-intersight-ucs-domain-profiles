@@ -59,7 +59,7 @@ locals {
 
 module "domain" {
   source  = "terraform-cisco-modules/profiles-domain/intersight"
-  version = ">= 1.0.4"
+  version = ">= 1.0.5"
   for_each = {
     for dp in lookup(local.profiles, "domain", []) : dp.name => dp if lookup(local.modules.profiles, "domain", true)
   }
